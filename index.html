@@ -1,39 +1,57 @@
-```html
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>مدیریت تخصصی سالن رنگ مو</title>
-    <!-- Bootstrap 5 RTL CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+
+    <!-- Bootstrap 5 RTL -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css"
+        rel="stylesheet"
+    >
+
     <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
     <style>
         :root {
             --primary-color: #d63384;
             --secondary-color: #6f42c1;
             --bg-light: #f4f6f9;
         }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-light);
             padding-bottom: 90px;
             user-select: none;
         }
+
         .app-header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background: linear-gradient(
+                135deg,
+                var(--primary-color),
+                var(--secondary-color)
+            );
             color: white;
             padding: 20px 15px 15px;
             border-radius: 0 0 25px 25px;
             box-shadow: 0 4px 15px rgba(214, 51, 132, 0.2);
         }
+
         .card {
             border-radius: 16px;
             border: none;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
             margin-bottom: 16px;
         }
+
         .nav-bottom {
             position: fixed;
             bottom: 0;
@@ -47,6 +65,7 @@
             padding: 10px 0;
             z-index: 1000;
         }
+
         .nav-item-btn {
             border: none;
             background: none;
@@ -57,30 +76,62 @@
             align-items: center;
             transition: all 0.2s;
         }
+
         .nav-item-btn.active {
             color: var(--primary-color);
             font-weight: bold;
             transform: translateY(-2px);
         }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
         .badge-owner {
             font-size: 11px;
             padding: 4px 8px;
             border-radius: 8px;
         }
-        .bg-me { background-color: #e3f2fd; color: #0d6efd; }
-        .bg-partner { background-color: #f3e5f5; color: #6f42c1; }
-        .bg-shared { background-color: #e8f5e9; color: #198754; }
-        
+
+        .bg-me {
+            background-color: #e3f2fd;
+            color: #0d6efd;
+        }
+
+        .bg-partner {
+            background-color: #f3e5f5;
+            color: #6f42c1;
+        }
+
+        .bg-shared {
+            background-color: #e8f5e9;
+            color: #198754;
+        }
+
         .health-badge {
             font-size: 10px;
             padding: 3px 6px;
             border-radius: 6px;
         }
-        .health-good { background-color: #d1e7dd; color: #0f5132; }
-        .health-warn { background-color: #fff3cd; color: #664d03; }
-        .health-danger { background-color: #f8d7da; color: #842029; }
+
+        .health-good {
+            background-color: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .health-warn {
+            background-color: #fff3cd;
+            color: #664d03;
+        }
+
+        .health-danger {
+            background-color: #f8d7da;
+            color: #842029;
+        }
 
         .filter-btn {
             border-radius: 20px;
@@ -89,484 +140,1637 @@
         }
     </style>
 </head>
+
 <body>
 
-    <!-- هدر نرم افزار -->
+    <!-- ================= هدر ================= -->
+
     <div class="app-header text-center">
-        <h5 class="fw-bold mb-1"><i class="bi bi-scissors me-1"></i> سالن تخصصی رنگ و لایت</h5>
-        <small class="opacity-75">حسابداری، نوبت‌دهی و پرونده رنگ مشتریان</small>
+        <h5 class="fw-bold mb-1">
+            <i class="bi bi-scissors me-1"></i>
+            سالن تخصصی رنگ و لایت
+        </h5>
+
+        <small class="opacity-75">
+            حسابداری، نوبت‌دهی و پرونده رنگ مشتریان
+        </small>
     </div>
+
 
     <div class="container mt-3">
 
-        <!-- ================= تب ۱: گزارش مالی و داشبورد ================= -->
+        <!-- ========================================================= -->
+        <!-- تب ۱: داشبورد و امور مالی -->
+        <!-- ========================================================= -->
+
         <div id="dashboardTab" class="tab-content active">
-            
-            <!-- فیلتر زمان گزارش‌گیری -->
+
+            <!-- فیلتر زمانی -->
+
             <div class="d-flex justify-content-center gap-2 mb-3">
-                <button class="btn btn-primary filter-btn active" onclick="setPeriodFilter('all', this)">کل دوره</button>
-                <button class="btn btn-outline-secondary filter-btn" onclick="setPeriodFilter('month', this)">این ماه</button>
-                <button class="btn btn-outline-secondary filter-btn" onclick="setPeriodFilter('today', this)">امروز</button>
+
+                <button
+                    class="btn btn-primary filter-btn active"
+                    onclick="setPeriodFilter('all', this)"
+                >
+                    کل دوره
+                </button>
+
+                <button
+                    class="btn btn-outline-secondary filter-btn"
+                    onclick="setPeriodFilter('month', this)"
+                >
+                    این ماه
+                </button>
+
+                <button
+                    class="btn btn-outline-secondary filter-btn"
+                    onclick="setPeriodFilter('today', this)"
+                >
+                    امروز
+                </button>
+
             </div>
 
-            <!-- خلاصه درآمد و هزینه -->
+
+            <!-- درآمد و هزینه -->
+
             <div class="row g-2 text-center mb-2">
+
                 <div class="col-6">
                     <div class="card p-3 bg-white">
-                        <small class="text-muted d-block">مجموع درآمد</small>
-                        <strong id="dashTotalIncome" class="text-success fs-5">0 تومان</strong>
+
+                        <small class="text-muted d-block">
+                            مجموع درآمد
+                        </small>
+
+                        <strong
+                            id="dashTotalIncome"
+                            class="text-success fs-5"
+                        >
+                            0 تومان
+                        </strong>
+
                     </div>
                 </div>
+
+
                 <div class="col-6">
                     <div class="card p-3 bg-white">
-                        <small class="text-muted d-block">مجموع هزینه‌ها</small>
-                        <strong id="dashTotalExpense" class="text-danger fs-5">0 تومان</strong>
+
+                        <small class="text-muted d-block">
+                            مجموع هزینه‌ها
+                        </small>
+
+                        <strong
+                            id="dashTotalExpense"
+                            class="text-danger fs-5"
+                        >
+                            0 تومان
+                        </strong>
+
                     </div>
                 </div>
+
             </div>
 
-            <!-- تسویه حساب شرکا -->
+
+            <!-- تسویه شرکا -->
+
             <div class="card p-3 border-start border-4 border-primary">
-                <h6 class="fw-bold text-dark mb-3"><i class="bi bi-calculator-fill text-primary me-1"></i> تسویه حساب خالص شرکا</h6>
-                
+
+                <h6 class="fw-bold text-dark mb-3">
+                    <i class="bi bi-calculator-fill text-primary me-1"></i>
+                    تسویه حساب خالص شرکا
+                </h6>
+
+
                 <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="text-secondary">سود خالص شما (اختصاصی + سهم ۵۰٪):</span>
-                    <strong id="myTotalNet" class="text-primary fs-6">0 تومان</strong>
+
+                    <span class="text-secondary">
+                        سود خالص شما (اختصاصی + سهم ۵۰٪):
+                    </span>
+
+                    <strong
+                        id="myTotalNet"
+                        class="text-primary fs-6"
+                    >
+                        0 تومان
+                    </strong>
+
                 </div>
+
+
                 <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="text-secondary">سود خالص شریک:</span>
-                    <strong id="partnerTotalNet" style="color: var(--secondary-color);" class="fs-6">0 تومان</strong>
+
+                    <span class="text-secondary">
+                        سود خالص شریک:
+                    </span>
+
+                    <strong
+                        id="partnerTotalNet"
+                        style="color: var(--secondary-color);"
+                        class="fs-6"
+                    >
+                        0 تومان
+                    </strong>
+
                 </div>
+
+
                 <hr class="my-2">
-                <div class="alert alert-info py-2 mb-0 text-center small" id="settlementAdvice">
+
+
+                <div
+                    class="alert alert-info py-2 mb-0 text-center small"
+                    id="settlementAdvice"
+                >
                     در حال محاسبه وضعیت تسویه...
                 </div>
+
             </div>
 
-            <!-- بخش پشتیبان‌گیری و اکسل (بند ۷) -->
+
+            <!-- پشتیبان‌گیری -->
+
             <div class="card p-3">
-                <h6 class="fw-bold text-dark mb-2"><i class="bi bi-shield-check text-success me-1"></i> پشتیبان‌گیری و خروجی داده‌ها</h6>
-                <p class="text-muted small mb-3">جهت جلوگیری از پریدن اطلاعات یا انتقال به آیفون/گوشی دیگر:</p>
+
+                <h6 class="fw-bold text-dark mb-2">
+                    <i class="bi bi-shield-check text-success me-1"></i>
+                    پشتیبان‌گیری و خروجی داده‌ها
+                </h6>
+
+                <p class="text-muted small mb-3">
+                    جهت جلوگیری از پریدن اطلاعات یا انتقال به آیفون/گوشی دیگر:
+                </p>
+
+
                 <div class="row g-2">
+
                     <div class="col-6">
-                        <button onclick="exportToCSV()" class="btn btn-outline-success w-100 btn-sm">
-                            <i class="bi bi-file-earmark-excel me-1"></i> خروجی اکسل
+
+                        <button
+                            onclick="exportToCSV()"
+                            class="btn btn-outline-success w-100 btn-sm"
+                        >
+                            <i class="bi bi-file-earmark-excel me-1"></i>
+                            خروجی اکسل
                         </button>
+
                     </div>
+
+
                     <div class="col-6">
-                        <button onclick="backupJSON()" class="btn btn-outline-primary w-100 btn-sm">
-                            <i class="bi bi-download me-1"></i> دانلود پشتیبان
+
+                        <button
+                            onclick="backupJSON()"
+                            class="btn btn-outline-primary w-100 btn-sm"
+                        >
+                            <i class="bi bi-download me-1"></i>
+                            دانلود پشتیبان
                         </button>
+
                     </div>
+
+
                     <div class="col-12 mt-2">
-                        <label for="restoreFile" class="btn btn-light border w-100 btn-sm text-secondary">
-                            <i class="bi bi-upload me-1"></i> بازیابی فایل پشتیبان
+
+                        <label
+                            for="restoreFile"
+                            class="btn btn-light border w-100 btn-sm text-secondary"
+                        >
+                            <i class="bi bi-upload me-1"></i>
+                            بازیابی فایل پشتیبان
                         </label>
-                        <input type="file" id="restoreFile" onchange="restoreJSON(event)" style="display:none;" accept=".json">
+
+                        <input
+                            type="file"
+                            id="restoreFile"
+                            onchange="restoreJSON(event)"
+                            style="display:none;"
+                            accept=".json"
+                        >
+
                     </div>
+
                 </div>
+
             </div>
+
         </div>
 
-        <!-- ================= تب ۲: مشتریان، CRM و فرمول رنگ ================= -->
+
+        <!-- ========================================================= -->
+        <!-- تب ۲: مشتریان و CRM -->
+        <!-- ========================================================= -->
+
         <div id="appointmentsTab" class="tab-content">
-            <!-- فرم ثبت مشتری -->
+
+            <!-- ثبت مشتری -->
+
             <div class="card p-3">
-                <h6 class="fw-bold mb-3 text-primary"><i class="bi bi-person-plus-fill me-1"></i> ثبت نوبت و فرمول موی مشتری</h6>
+
+                <h6 class="fw-bold mb-3 text-primary">
+                    <i class="bi bi-person-plus-fill me-1"></i>
+                    ثبت نوبت و فرمول موی مشتری
+                </h6>
+
+
                 <form id="appointmentForm">
+
                     <div class="row g-2">
+
                         <div class="col-6">
-                            <input type="text" id="custName" class="form-control form-control-sm mb-2" placeholder="نام مشتری" required>
+
+                            <input
+                                type="text"
+                                id="custName"
+                                class="form-control form-control-sm mb-2"
+                                placeholder="نام مشتری"
+                                required
+                            >
+
                         </div>
+
+
                         <div class="col-6">
-                            <input type="tel" id="custPhone" class="form-control form-control-sm mb-2" placeholder="شماره تماس (۹۱۲...)">
+
+                            <input
+                                type="tel"
+                                id="custPhone"
+                                class="form-control form-control-sm mb-2"
+                                placeholder="شماره تماس (۹۱۲...)"
+                            >
+
                         </div>
+
                     </div>
 
-                    <input type="text" id="custService" class="form-control form-control-sm mb-2" placeholder="نوع تکنیک (بالیاژ، آمبره، ریشه‌گیری)" required>
-                    
-                    <!-- بند ۵: پرونده سلامت مو و فرمول -->
+
+                    <input
+                        type="text"
+                        id="custService"
+                        class="form-control form-control-sm mb-2"
+                        placeholder="نوع تکنیک (بالیاژ، آمبره، ریشه‌گیری)"
+                        required
+                    >
+
+
+                    <!-- سلامت مو و زمان ترمیم -->
+
                     <div class="row g-2 mb-2">
+
                         <div class="col-6">
-                            <label class="form-label small mb-1 text-muted">سلامت مو قبل کار:</label>
-                            <select id="custHealthBefore" class="form-select form-select-sm">
-                                <option value="سالم">سالم و طبیعی</option>
-                                <option value="آسیب‌دیده">کمی خشک / دکلره‌دار</option>
-                                <option value="کشسان">کشسان و آسیب‌دیده</option>
+
+                            <label class="form-label small mb-1 text-muted">
+                                سلامت مو قبل کار:
+                            </label>
+
+                            <select
+                                id="custHealthBefore"
+                                class="form-select form-select-sm"
+                            >
+                                <option value="سالم">
+                                    سالم و طبیعی
+                                </option>
+
+                                <option value="آسیب‌دیده">
+                                    کمی خشک / دکلره‌دار
+                                </option>
+
+                                <option value="کشسان">
+                                    کشسان و آسیب‌دیده
+                                </option>
                             </select>
+
                         </div>
+
+
                         <div class="col-6">
-                            <label class="form-label small mb-1 text-muted">یادآوری ترمیم (هفته):</label>
-                            <select id="custRetouchWeeks" class="form-select form-select-sm">
-                                <option value="4">۴ هفته بعد</option>
-                                <option value="6" selected>۶ هفته بعد</option>
-                                <option value="8">۸ هفته بعد</option>
+
+                            <label class="form-label small mb-1 text-muted">
+                                یادآوری ترمیم (هفته):
+                            </label>
+
+                            <select
+                                id="custRetouchWeeks"
+                                class="form-select form-select-sm"
+                            >
+                                <option value="4">
+                                    ۴ هفته بعد
+                                </option>
+
+                                <option value="6" selected>
+                                    ۶ هفته بعد
+                                </option>
+
+                                <option value="8">
+                                    ۸ هفته بعد
+                                </option>
                             </select>
+
                         </div>
+
                     </div>
 
-                    <textarea id="custFormula" class="form-control form-control-sm mb-2" rows="2" placeholder="فرمول دقیق رنگ/پودر (مثلا: 30g پودر بنفش + اکسیدان 6% + رنگ 8.1 + 9.02)"></textarea>
+
+                    <textarea
+                        id="custFormula"
+                        class="form-control form-control-sm mb-2"
+                        rows="2"
+                        placeholder="فرمول دقیق رنگ/پودر (مثلا: 30g پودر بنفش + اکسیدان 6% + رنگ 8.1 + 9.02)"
+                    ></textarea>
+
 
                     <div class="row g-2 mb-2">
+
                         <div class="col-6">
-                            <input type="number" id="custPrice" class="form-control form-control-sm" placeholder="مبلغ دریافتی (تومان)" required>
+
+                            <input
+                                type="number"
+                                id="custPrice"
+                                class="form-control form-control-sm"
+                                placeholder="مبلغ دریافتی (تومان)"
+                                required
+                            >
+
                         </div>
+
+
                         <div class="col-6">
-                            <select id="custOwner" class="form-select form-select-sm" required>
-                                <option value="me">مشتری من (شخصی)</option>
-                                <option value="partner">مشتری شریک (شخصی)</option>
-                                <option value="shared">مشتری مشترک (۵۰٪)</option>
+
+                            <select
+                                id="custOwner"
+                                class="form-select form-select-sm"
+                                required
+                            >
+
+                                <option value="me">
+                                    مشتری من (شخصی)
+                                </option>
+
+                                <option value="partner">
+                                    مشتری شریک (شخصی)
+                                </option>
+
+                                <option value="shared">
+                                    مشتری مشترک (۵۰٪)
+                                </option>
+
                             </select>
+
                         </div>
+
                     </div>
-                    
-                    <button type="submit" class="btn btn-primary btn-sm w-100 mt-2" style="background-color: var(--primary-color); border:none;">
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary btn-sm w-100 mt-2"
+                        style="background-color: var(--primary-color); border:none;"
+                    >
                         ثبت مشتری و ذخیره در پرونده
                     </button>
+
                 </form>
+
             </div>
 
-            <!-- جستجو و پیگیری مشتریان -->
+
+            <!-- جستجوی مشتری -->
+
             <div class="d-flex justify-content-between align-items-center mt-4 mb-2">
-                <h6 class="fw-bold mb-0">لیست پرونده‌ها & پیگیری</h6>
+
+                <h6 class="fw-bold mb-0">
+                    لیست پرونده‌ها & پیگیری
+                </h6>
+
             </div>
 
-            <input type="text" id="searchCust" onkeyup="renderApp()" class="form-control form-control-sm mb-3" placeholder="🔍 جستجوی نام مشتری یا شماره تماس...">
+
+            <input
+                type="text"
+                id="searchCust"
+                onkeyup="renderApp()"
+                class="form-control form-control-sm mb-3"
+                placeholder="🔍 جستجوی نام مشتری یا شماره تماس..."
+            >
+
 
             <div id="appointmentsList"></div>
+
         </div>
 
-        <!-- ================= تب ۳: هزینه‌های سالن ================= -->
+
+        <!-- ========================================================= -->
+        <!-- تب ۳: هزینه‌ها -->
+        <!-- ========================================================= -->
+
         <div id="expensesTab" class="tab-content">
+
             <div class="card p-3">
-                <h6 class="fw-bold mb-3 text-danger"><i class="bi bi-cart-plus-fill me-1"></i> ثبت هزینه جدید سالن</h6>
+
+                <h6 class="fw-bold mb-3 text-danger">
+                    <i class="bi bi-cart-plus-fill me-1"></i>
+                    ثبت هزینه جدید سالن
+                </h6>
+
+
                 <form id="expenseForm">
-                    <select id="expCategory" class="form-select form-select-sm mb-2">
-                        <option value="اجاره سالن">اجاره سالن</option>
-                        <option value="خرید رنگ مو">خرید تیوپ رنگ مو</option>
-                        <option value="پودر دکلره و اکسیدان">پودر دکلره / اکسیدان</option>
-                        <option value="فویل و ملزومات">فویل، سوئیت‌مش و دستکش</option>
-                        <option value="قبوض و سایر">قبوض، پذیرایی و سایر</option>
+
+                    <select
+                        id="expCategory"
+                        class="form-select form-select-sm mb-2"
+                    >
+                        <option value="اجاره سالن">
+                            اجاره سالن
+                        </option>
+
+                        <option value="خرید رنگ مو">
+                            خرید تیوپ رنگ مو
+                        </option>
+
+                        <option value="پودر دکلره و اکسیدان">
+                            پودر دکلره / اکسیدان
+                        </option>
+
+                        <option value="فویل و ملزومات">
+                            فویل، سوئیت‌مش و دستکش
+                        </option>
+
+                        <option value="قبوض و سایر">
+                            قبوض، پذیرایی و سایر
+                        </option>
+
                     </select>
 
-                    <input type="number" id="expAmount" class="form-control form-control-sm mb-2" placeholder="مبلغ هزینه (تومان)" required>
-                    
-                    <label class="form-label small mb-1 text-muted">پرداخت‌کننده هزینه:</label>
-                    <select id="expPayer" class="form-select form-select-sm mb-2" required>
-                        <option value="shared">هزینه مشترک سالن (تقسیم ۵۰٪)</option>
-                        <option value="me">پرداخت توسط من (خرید شخصی)</option>
-                        <option value="partner">پرداخت توسط شریک (خرید شخصی)</option>
+
+                    <input
+                        type="number"
+                        id="expAmount"
+                        class="form-control form-control-sm mb-2"
+                        placeholder="مبلغ هزینه (تومان)"
+                        required
+                    >
+
+
+                    <label class="form-label small mb-1 text-muted">
+                        پرداخت‌کننده هزینه:
+                    </label>
+
+
+                    <select
+                        id="expPayer"
+                        class="form-select form-select-sm mb-2"
+                        required
+                    >
+
+                        <option value="shared">
+                            هزینه مشترک سالن (تقسیم ۵۰٪)
+                        </option>
+
+                        <option value="me">
+                            پرداخت توسط من (خرید شخصی)
+                        </option>
+
+                        <option value="partner">
+                            پرداخت توسط شریک (خرید شخصی)
+                        </option>
+
                     </select>
 
-                    <input type="text" id="expDesc" class="form-control form-control-sm mb-2" placeholder="توضیحات (مثلاً خرید ۵ عدد رنگ ایگورا 7.1)">
-                    <button type="submit" class="btn btn-danger btn-sm w-100">ثبت هزینه</button>
+
+                    <input
+                        type="text"
+                        id="expDesc"
+                        class="form-control form-control-sm mb-2"
+                        placeholder="توضیحات (مثلاً خرید ۵ عدد رنگ ایگورا 7.1)"
+                    >
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-danger btn-sm w-100"
+                    >
+                        ثبت هزینه
+                    </button>
+
                 </form>
+
             </div>
 
-            <h6 class="fw-bold mt-4 mb-2">لیست هزینه‌ها</h6>
+
+            <h6 class="fw-bold mt-4 mb-2">
+                لیست هزینه‌ها
+            </h6>
+
             <div id="expensesList"></div>
+
         </div>
 
     </div>
 
-    <!-- منوی پایینی اپلیکیشن -->
+
+    <!-- ========================================================= -->
+    <!-- منوی پایین -->
+    <!-- ========================================================= -->
+
     <div class="nav-bottom">
-        <button class="nav-item-btn active" onclick="switchTab('dashboardTab', this)">
+
+        <button
+            class="nav-item-btn active"
+            onclick="switchTab('dashboardTab', this)"
+        >
             <i class="bi bi-pie-chart-fill fs-5"></i>
             داشبورد & مالی
         </button>
-        <button class="nav-item-btn" onclick="switchTab('appointmentsTab', this)">
+
+
+        <button
+            class="nav-item-btn"
+            onclick="switchTab('appointmentsTab', this)"
+        >
             <i class="bi bi-journal-check fs-5"></i>
             مشتریان & CRM
         </button>
-        <button class="nav-item-btn" onclick="switchTab('expensesTab', this)">
+
+
+        <button
+            class="nav-item-btn"
+            onclick="switchTab('expensesTab', this)"
+        >
             <i class="bi bi-wallet2 fs-5"></i>
             هزینه‌ها
         </button>
+
     </div>
 
+
+    <!-- ========================================================= -->
+    <!-- JavaScript -->
+    <!-- ========================================================= -->
+
     <script>
-        let appointments = JSON.parse(localStorage.getItem('salon_apps_v2')) || [];
-        let expenses = JSON.parse(localStorage.getItem('salon_exps_v2')) || [];
+
+        /* =========================
+           اطلاعات ذخیره‌شده
+        ========================= */
+
+        let appointments =
+            JSON.parse(localStorage.getItem('salon_apps_v2')) || [];
+
+        let expenses =
+            JSON.parse(localStorage.getItem('salon_exps_v2')) || [];
+
         let currentPeriod = 'all';
 
+
+        /* =========================
+           تغییر تب
+        ========================= */
+
         function switchTab(tabId, btn) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-item-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
+
+            document
+                .querySelectorAll('.tab-content')
+                .forEach(tab => {
+                    tab.classList.remove('active');
+                });
+
+            document
+                .querySelectorAll('.nav-item-btn')
+                .forEach(button => {
+                    button.classList.remove('active');
+                });
+
+            document
+                .getElementById(tabId)
+                .classList.add('active');
+
             btn.classList.add('active');
         }
 
+
+        /* =========================
+           فیلتر زمانی
+        ========================= */
+
         function setPeriodFilter(period, btn) {
+
             currentPeriod = period;
-            document.querySelectorAll('.filter-btn').forEach(b => {
-                b.classList.remove('btn-primary', 'active');
-                b.classList.add('btn-outline-secondary');
-            });
-            btn.classList.remove('btn-outline-secondary');
-            btn.classList.add('btn-primary', 'active');
+
+            document
+                .querySelectorAll('.filter-btn')
+                .forEach(button => {
+
+                    button.classList.remove(
+                        'btn-primary',
+                        'active'
+                    );
+
+                    button.classList.add(
+                        'btn-outline-secondary'
+                    );
+
+                });
+
+
+            btn.classList.remove(
+                'btn-outline-secondary'
+            );
+
+            btn.classList.add(
+                'btn-primary',
+                'active'
+            );
+
+
             renderApp();
         }
 
-        // ثبت مشتری جدید
-        document.getElementById('appointmentForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const now = new Date();
-            const weeks = parseInt(document.getElementById('custRetouchWeeks').value);
-            const retouchDate = new Date(now.getTime() + (weeks * 7 * 24 * 60 * 60 * 1000));
 
-            const app = {
-                id: Date.now(),
-                name: document.getElementById('custName').value.trim(),
-                phone: document.getElementById('custPhone').value.trim(),
-                service: document.getElementById('custService').value.trim(),
-                healthBefore: document.getElementById('custHealthBefore').value,
-                formula: document.getElementById('custFormula').value.trim(),
-                price: parseFloat(document.getElementById('custPrice').value),
-                owner: document.getElementById('custOwner').value,
-                date: now.toISOString(),
-                dateStr: now.toLocaleDateString('fa-IR'),
-                retouchDateStr: retouchDate.toLocaleDateString('fa-IR')
-            };
+        /* =========================
+           ثبت مشتری
+        ========================= */
 
-            appointments.push(app);
-            localStorage.setItem('salon_apps_v2', JSON.stringify(appointments));
-            this.reset();
-            renderApp();
-            alert("پرونده مشتری با موفقیت ثبت شد.");
-        });
+        document
+            .getElementById('appointmentForm')
+            .addEventListener('submit', function (e) {
 
-        // ثبت هزینه جدید
-        document.getElementById('expenseForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const now = new Date();
-            const exp = {
-                id: Date.now(),
-                category: document.getElementById('expCategory').value,
-                amount: parseFloat(document.getElementById('expAmount').value),
-                payer: document.getElementById('expPayer').value,
-                desc: document.getElementById('expDesc').value.trim(),
-                date: now.toISOString(),
-                dateStr: now.toLocaleDateString('fa-IR')
-            };
+                e.preventDefault();
 
-            expenses.push(exp);
-            localStorage.setItem('salon_exps_v2', JSON.stringify(expenses));
-            this.reset();
-            renderApp();
-        });
+                const now = new Date();
+
+                const weeks = parseInt(
+                    document.getElementById(
+                        'custRetouchWeeks'
+                    ).value
+                );
+
+
+                const retouchDate = new Date(
+                    now.getTime() +
+                    (
+                        weeks *
+                        7 *
+                        24 *
+                        60 *
+                        60 *
+                        1000
+                    )
+                );
+
+
+                const app = {
+
+                    id: Date.now(),
+
+                    name: document
+                        .getElementById('custName')
+                        .value
+                        .trim(),
+
+                    phone: document
+                        .getElementById('custPhone')
+                        .value
+                        .trim(),
+
+                    service: document
+                        .getElementById('custService')
+                        .value
+                        .trim(),
+
+                    healthBefore: document
+                        .getElementById('custHealthBefore')
+                        .value,
+
+                    formula: document
+                        .getElementById('custFormula')
+                        .value
+                        .trim(),
+
+                    price: parseFloat(
+                        document.getElementById(
+                            'custPrice'
+                        ).value
+                    ),
+
+                    owner: document
+                        .getElementById('custOwner')
+                        .value,
+
+                    date: now.toISOString(),
+
+                    dateStr: now.toLocaleDateString(
+                        'fa-IR'
+                    ),
+
+                    retouchDateStr:
+                        retouchDate.toLocaleDateString(
+                            'fa-IR'
+                        )
+                };
+
+
+                appointments.push(app);
+
+
+                localStorage.setItem(
+                    'salon_apps_v2',
+                    JSON.stringify(appointments)
+                );
+
+
+                this.reset();
+
+                renderApp();
+
+                alert(
+                    "پرونده مشتری با موفقیت ثبت شد."
+                );
+
+            });
+
+
+        /* =========================
+           ثبت هزینه
+        ========================= */
+
+        document
+            .getElementById('expenseForm')
+            .addEventListener('submit', function (e) {
+
+                e.preventDefault();
+
+                const now = new Date();
+
+
+                const exp = {
+
+                    id: Date.now(),
+
+                    category: document
+                        .getElementById('expCategory')
+                        .value,
+
+                    amount: parseFloat(
+                        document.getElementById(
+                            'expAmount'
+                        ).value
+                    ),
+
+                    payer: document
+                        .getElementById('expPayer')
+                        .value,
+
+                    desc: document
+                        .getElementById('expDesc')
+                        .value
+                        .trim(),
+
+                    date: now.toISOString(),
+
+                    dateStr:
+                        now.toLocaleDateString(
+                            'fa-IR'
+                        )
+                };
+
+
+                expenses.push(exp);
+
+
+                localStorage.setItem(
+                    'salon_exps_v2',
+                    JSON.stringify(expenses)
+                );
+
+
+                this.reset();
+
+                renderApp();
+
+            });
+
+
+        /* =========================
+           حذف مشتری
+        ========================= */
 
         function deleteApp(id) {
-            if(confirm("آیا از حذف این پرونده مطمئن هستید؟")) {
-                appointments = appointments.filter(a => a.id !== id);
-                localStorage.setItem('salon_apps_v2', JSON.stringify(appointments));
+
+            if (
+                confirm(
+                    "آیا از حذف این پرونده مطمئن هستید؟"
+                )
+            ) {
+
+                appointments =
+                    appointments.filter(
+                        a => a.id !== id
+                    );
+
+
+                localStorage.setItem(
+                    'salon_apps_v2',
+                    JSON.stringify(appointments)
+                );
+
+
                 renderApp();
+
             }
         }
+
+
+        /* =========================
+           حذف هزینه
+        ========================= */
 
         function deleteExp(id) {
-            if(confirm("آیا از حذف این هزینه مطمئن هستید؟")) {
-                expenses = expenses.filter(e => e.id !== id);
-                localStorage.setItem('salon_exps_v2', JSON.stringify(expenses));
+
+            if (
+                confirm(
+                    "آیا از حذف این هزینه مطمئن هستید؟"
+                )
+            ) {
+
+                expenses =
+                    expenses.filter(
+                        e => e.id !== id
+                    );
+
+
+                localStorage.setItem(
+                    'salon_exps_v2',
+                    JSON.stringify(expenses)
+                );
+
+
                 renderApp();
+
             }
         }
 
-        // فیلتر بازه زمانی (امروز / این ماه / کل)
+
+        /* =========================
+           فیلتر تاریخ
+        ========================= */
+
         function filterByPeriod(items) {
-            if (currentPeriod === 'all') return items;
+
+            if (currentPeriod === 'all') {
+                return items;
+            }
+
+
             const now = new Date();
+
+
             return items.filter(item => {
-                const itemDate = new Date(item.date);
+
+                const itemDate =
+                    new Date(item.date);
+
+
                 if (currentPeriod === 'today') {
-                    return itemDate.toDateString() === now.toDateString();
-                } else if (currentPeriod === 'month') {
-                    return itemDate.getMonth() === now.getMonth() && itemDate.getFullYear() === now.getFullYear();
+
+                    return (
+                        itemDate.toDateString() ===
+                        now.toDateString()
+                    );
+
                 }
+
+
+                if (currentPeriod === 'month') {
+
+                    return (
+                        itemDate.getMonth() ===
+                            now.getMonth() &&
+
+                        itemDate.getFullYear() ===
+                            now.getFullYear()
+                    );
+
+                }
+
+
                 return true;
+
             });
         }
+
+
+        /* =========================
+           نمایش کل برنامه
+        ========================= */
 
         function renderApp() {
-            const filteredApps = filterByPeriod(appointments);
-            const filteredExps = filterByPeriod(expenses);
 
-            // ۱. محاسبات درآمدها
-            let myIncome = 0, partnerIncome = 0, sharedIncome = 0;
+            const filteredApps =
+                filterByPeriod(appointments);
+
+            const filteredExps =
+                filterByPeriod(expenses);
+
+
+            /* =========================
+               درآمدها
+            ========================= */
+
+            let myIncome = 0;
+            let partnerIncome = 0;
+            let sharedIncome = 0;
+
+
             filteredApps.forEach(a => {
-                if (a.owner === 'me') myIncome += a.price;
-                else if (a.owner === 'partner') partnerIncome += a.price;
-                else if (a.owner === 'shared') sharedIncome += a.price;
+
+                if (a.owner === 'me') {
+
+                    myIncome += a.price;
+
+                } else if (a.owner === 'partner') {
+
+                    partnerIncome += a.price;
+
+                } else if (a.owner === 'shared') {
+
+                    sharedIncome += a.price;
+
+                }
+
             });
 
-            // ۲. محاسبات هزینه‌ها
-            let myExpense = 0, partnerExpense = 0, sharedExpense = 0;
+
+            /* =========================
+               هزینه‌ها
+            ========================= */
+
+            let myExpense = 0;
+            let partnerExpense = 0;
+            let sharedExpense = 0;
+
+
             filteredExps.forEach(e => {
-                if (e.payer === 'me') myExpense += e.amount;
-                else if (e.payer === 'partner') partnerExpense += e.amount;
-                else if (e.payer === 'shared') sharedExpense += e.amount;
+
+                if (e.payer === 'me') {
+
+                    myExpense += e.amount;
+
+                } else if (e.payer === 'partner') {
+
+                    partnerExpense += e.amount;
+
+                } else if (e.payer === 'shared') {
+
+                    sharedExpense += e.amount;
+
+                }
+
             });
 
-            const totalIncome = myIncome + partnerIncome + sharedIncome;
-            const totalExpense = myExpense + partnerExpense + sharedExpense;
 
-            // ۳. محاسبه سود خالص
-            const netShared = sharedIncome - sharedExpense;
-            const myNet = myIncome - myExpense + (netShared / 2);
-            const partnerNet = partnerIncome - partnerExpense + (netShared / 2);
+            /* =========================
+               محاسبات مالی
+            ========================= */
 
-            // بروزرسانی UI مالی
-            document.getElementById('dashTotalIncome').innerText = totalIncome.toLocaleString() + ' تومان';
-            document.getElementById('dashTotalExpense').innerText = totalExpense.toLocaleString() + ' تومان';
-            document.getElementById('myTotalNet').innerText = myNet.toLocaleString() + ' تومان';
-            document.getElementById('partnerTotalNet').innerText = partnerNet.toLocaleString() + ' تومان';
+            const totalIncome =
+                myIncome +
+                partnerIncome +
+                sharedIncome;
 
-            const adviceEl = document.getElementById('settlementAdvice');
-            if(netShared > 0) {
-                adviceEl.innerText = `سود کار مشترک: ${netShared.toLocaleString()} تومان (سهم هر نفر ${(netShared/2).toLocaleString()} تومان)`;
-            } else if(netShared < 0) {
-                adviceEl.innerText = `زیان کارهای مشترک: ${Math.abs(netShared).toLocaleString()} تومان`;
+
+            const totalExpense =
+                myExpense +
+                partnerExpense +
+                sharedExpense;
+
+
+            const netShared =
+                sharedIncome -
+                sharedExpense;
+
+
+            const myNet =
+                myIncome -
+                myExpense +
+                (netShared / 2);
+
+
+            const partnerNet =
+                partnerIncome -
+                partnerExpense +
+                (netShared / 2);
+
+
+            /* =========================
+               نمایش مالی
+            ========================= */
+
+            document
+                .getElementById('dashTotalIncome')
+                .innerText =
+                totalIncome.toLocaleString() +
+                ' تومان';
+
+
+            document
+                .getElementById('dashTotalExpense')
+                .innerText =
+                totalExpense.toLocaleString() +
+                ' تومان';
+
+
+            document
+                .getElementById('myTotalNet')
+                .innerText =
+                myNet.toLocaleString() +
+                ' تومان';
+
+
+            document
+                .getElementById('partnerTotalNet')
+                .innerText =
+                partnerNet.toLocaleString() +
+                ' تومان';
+
+
+            const adviceEl =
+                document.getElementById(
+                    'settlementAdvice'
+                );
+
+
+            if (netShared > 0) {
+
+                adviceEl.innerText =
+                    `سود کار مشترک: ${netShared.toLocaleString()} تومان ` +
+                    `(سهم هر نفر ${(netShared / 2).toLocaleString()} تومان)`;
+
+            } else if (netShared < 0) {
+
+                adviceEl.innerText =
+                    `زیان کارهای مشترک: ${Math.abs(netShared).toLocaleString()} تومان`;
+
             } else {
-                adviceEl.innerText = `حساب‌های مشترک کاملاً تسویه و متوازن هستند.`;
+
+                adviceEl.innerText =
+                    'حساب‌های مشترک کاملاً تسویه و متوازن هستند.';
+
             }
 
-            // ۴. رندر مشتریان با قابلیت جستجو
-            const searchTxt = document.getElementById('searchCust').value.toLowerCase();
-            const appList = document.getElementById('appointmentsList');
+
+            /* =================================================
+               نمایش مشتریان
+            ================================================= */
+
+            const searchTxt =
+                document
+                    .getElementById('searchCust')
+                    .value
+                    .toLowerCase();
+
+
+            const appList =
+                document.getElementById(
+                    'appointmentsList'
+                );
+
+
             appList.innerHTML = '';
 
-            appointments.slice().reverse().forEach(a => {
-                if (searchTxt && !a.name.toLowerCase().includes(searchTxt) && !a.phone.includes(searchTxt)) {
-                    return;
-                }
 
-                let badgeText = a.owner === 'me' ? 'شخصی من' : (a.owner === 'partner' ? 'شخصی شریک' : 'مشترک');
-                let badgeClass = a.owner === 'me' ? 'bg-me' : (a.owner === 'partner' ? 'bg-partner' : 'bg-shared');
-                
-                let healthClass = a.healthBefore === 'سالم' ? 'health-good' : (a.healthBefore === 'کشسان' ? 'health-danger' : 'health-warn');
+            appointments
+                .slice()
+                .reverse()
+                .forEach(a => {
 
-                // دکمه ارسال یادآوری ترمیم در واتس‌اپ
-                let phoneNum = a.phone.startsWith('0') ? '98' + a.phone.substring(1) : a.phone;
-                let waMessage = encodeURIComponent(`سلام ${a.name} عزیز، از سالن زیبایی کیانا جم مزاحمتون می‌شم. وقت موعد ترمیم دکلره/ریشه شما رسیده، جهت هماهنگی نوبت پیام بدید.`);
-                let waBtn = a.phone ? `<a href="https://wa.me/${phoneNum}?text=${waMessage}" target="_blank" class="btn btn-sm btn-outline-success"><i class="bi bi-whatsapp me-1"></i>پیام ترمیم</a>` : '';
+                    /* جستجو */
 
-                appList.innerHTML += `
-                    <div class="card p-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <strong class="fs-6">${a.name}</strong>
-                                <span class="badge ${badgeClass} badge-owner ms-1">${badgeText}</span>
+                    if (
+                        searchTxt &&
+                        !a.name
+                            .toLowerCase()
+                            .includes(searchTxt) &&
+                        !a.phone
+                            .includes(searchTxt)
+                    ) {
+                        return;
+                    }
+
+
+                    /* نوع مشتری */
+
+                    let badgeText =
+                        a.owner === 'me'
+                            ? 'شخصی من'
+                            : (
+                                a.owner === 'partner'
+                                    ? 'شخصی شریک'
+                                    : 'مشترک'
+                            );
+
+
+                    let badgeClass =
+                        a.owner === 'me'
+                            ? 'bg-me'
+                            : (
+                                a.owner === 'partner'
+                                    ? 'bg-partner'
+                                    : 'bg-shared'
+                            );
+
+
+                    /* سلامت مو */
+
+                    let healthClass =
+                        a.healthBefore === 'سالم'
+                            ? 'health-good'
+                            : (
+                                a.healthBefore === 'کشسان'
+                                    ? 'health-danger'
+                                    : 'health-warn'
+                            );
+
+
+                    /* =================================================
+                       شماره تلفن برای SMS
+                    ================================================= */
+
+                    let phoneNum = '';
+
+                    if (a.phone) {
+
+                        phoneNum =
+                            a.phone.startsWith('0')
+                                ? '98' +
+                                  a.phone.substring(1)
+                                : a.phone;
+
+                    }
+
+
+                    /* =================================================
+                       متن پیامک
+                    ================================================= */
+
+                    let smsMessage = `سلام ${a.name} عزیزم ❤️
+
+نجمه رحیمی هستم، هیرکالرست شما.
+
+فکر کنم وقتشه دوباره به موهاتون یه رسیدگی حسابی بکنیم ✨
+
+با توجه به زمان آخرین مراجعه‌تون، موعد [رنگساژ / رنگ ریشه / ترمیم لایت] شما نزدیک شده.
+
+اگر دوست دارید، پیام بدید تا مناسب‌ترین تایم رو براتون هماهنگ کنم. 🌿
+
+مشتاق دیدنتون هستم 🤍`;
+
+
+                    /* =================================================
+                       دکمه پیامک
+                    ================================================= */
+
+                    let smsBtn =
+                        a.phone
+                            ? `
+                                <a
+                                    href="sms:${phoneNum}?body=${encodeURIComponent(smsMessage)}"
+                                    class="btn btn-sm btn-outline-primary"
+                                >
+                                    <i class="bi bi-chat-dots me-1"></i>
+                                    پیام ترمیم
+                                </a>
+                              `
+                            : '';
+
+
+                    /* =================================================
+                       کارت مشتری
+                    ================================================= */
+
+                    appList.innerHTML += `
+
+                        <div class="card p-3">
+
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <div>
+
+                                    <strong class="fs-6">
+                                        ${a.name}
+                                    </strong>
+
+                                    <span class="badge ${badgeClass} badge-owner ms-1">
+                                        ${badgeText}
+                                    </span>
+
+                                </div>
+
+
+                                <span class="text-success fw-bold">
+                                    ${a.price.toLocaleString()}
+                                    تومان
+                                </span>
+
                             </div>
-                            <span class="text-success fw-bold">${a.price.toLocaleString()} تومان</span>
-                        </div>
 
-                        <div class="mt-2 text-muted small">
-                            <span>خدمات: <strong>${a.service}</strong></span> | 
-                            <span>تاریخ: ${a.dateStr}</span>
-                        </div>
 
-                        <div class="mt-1">
-                            <span class="health-badge ${healthClass}">وضعیت مو: ${a.healthBefore}</span>
-                            <span class="badge bg-light text-dark border ms-1"><i class="bi bi-calendar-event me-1"></i>ترمیم پیشنهادی: ${a.retouchDateStr || 'ثبت نشده'}</span>
-                        </div>
+                            <div class="mt-2 text-muted small">
 
-                        ${a.formula ? `
-                            <div class="p-2 bg-light rounded mt-2 border">
-                                <small class="text-secondary d-block"><strong><i class="bi bi-palette me-1"></i>فرمول رنگ:</strong> ${a.formula}</small>
+                                <span>
+                                    خدمات:
+                                    <strong>
+                                        ${a.service}
+                                    </strong>
+                                </span>
+
+                                |
+
+                                <span>
+                                    تاریخ:
+                                    ${a.dateStr}
+                                </span>
+
                             </div>
-                        ` : ''}
 
-                        <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
-                            <div>${waBtn}</div>
-                            <button onclick="deleteApp(${a.id})" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i> حذف</button>
+
+                            <div class="mt-1">
+
+                                <span
+                                    class="health-badge ${healthClass}"
+                                >
+                                    وضعیت مو:
+                                    ${a.healthBefore}
+                                </span>
+
+
+                                <span
+                                    class="badge bg-light text-dark border ms-1"
+                                >
+                                    <i class="bi bi-calendar-event me-1"></i>
+
+                                    ترمیم پیشنهادی:
+                                    ${a.retouchDateStr || 'ثبت نشده'}
+
+                                </span>
+
+                            </div>
+
+
+                            ${
+                                a.formula
+                                    ? `
+                                        <div class="p-2 bg-light rounded mt-2 border">
+
+                                            <small class="text-secondary d-block">
+
+                                                <strong>
+                                                    <i class="bi bi-palette me-1"></i>
+                                                    فرمول رنگ:
+                                                </strong>
+
+                                                ${a.formula}
+
+                                            </small>
+
+                                        </div>
+                                      `
+                                    : ''
+                            }
+
+
+                            <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
+
+                                <div>
+                                    ${smsBtn}
+                                </div>
+
+
+                                <button
+                                    onclick="deleteApp(${a.id})"
+                                    class="btn btn-sm btn-outline-danger"
+                                >
+                                    <i class="bi bi-trash"></i>
+                                    حذف
+                                </button>
+
+                            </div>
+
                         </div>
-                    </div>
-                `;
-            });
 
-            // ۵. رندر هزینه‌ها
-            const expList = document.getElementById('expensesList');
+                    `;
+
+                });
+
+
+            /* =================================================
+               نمایش هزینه‌ها
+            ================================================= */
+
+            const expList =
+                document.getElementById(
+                    'expensesList'
+                );
+
+
             expList.innerHTML = '';
-            expenses.slice().reverse().forEach(e => {
-                let badgeText = e.payer === 'me' ? 'خرید من' : (e.payer === 'partner' ? 'خرید شریک' : 'مشترک سالن');
-                let badgeClass = e.payer === 'me' ? 'bg-me' : (e.payer === 'partner' ? 'bg-partner' : 'bg-shared');
 
-                expList.innerHTML += `
-                    <div class="card p-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <strong>${e.category}</strong>
-                                <span class="badge ${badgeClass} badge-owner ms-1">${badgeText}</span>
+
+            expenses
+                .slice()
+                .reverse()
+                .forEach(e => {
+
+                    let badgeText =
+                        e.payer === 'me'
+                            ? 'خرید من'
+                            : (
+                                e.payer === 'partner'
+                                    ? 'خرید شریک'
+                                    : 'مشترک سالن'
+                            );
+
+
+                    let badgeClass =
+                        e.payer === 'me'
+                            ? 'bg-me'
+                            : (
+                                e.payer === 'partner'
+                                    ? 'bg-partner'
+                                    : 'bg-shared'
+                            );
+
+
+                    expList.innerHTML += `
+
+                        <div class="card p-3">
+
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <div>
+
+                                    <strong>
+                                        ${e.category}
+                                    </strong>
+
+                                    <span
+                                        class="badge ${badgeClass} badge-owner ms-1"
+                                    >
+                                        ${badgeText}
+                                    </span>
+
+                                </div>
+
+
+                                <span class="text-danger fw-bold">
+                                    ${e.amount.toLocaleString()}
+                                    تومان
+                                </span>
+
                             </div>
-                            <span class="text-danger fw-bold">${e.amount.toLocaleString()} تومان</span>
+
+
+                            <small class="text-muted mt-1">
+
+                                ${
+                                    e.desc
+                                        ? e.desc + ' | '
+                                        : ''
+                                }
+
+                                تاریخ:
+                                ${e.dateStr}
+
+                            </small>
+
+
+                            <div class="d-flex justify-content-end mt-1">
+
+                                <button
+                                    onclick="deleteExp(${e.id})"
+                                    class="btn btn-sm btn-outline-danger py-0 px-2 fs-6"
+                                >
+                                    <i class="bi bi-trash"></i>
+                                </button>
+
+                            </div>
+
                         </div>
-                        <small class="text-muted mt-1">${e.desc ? e.desc + ' | ' : ''}تاریخ: ${e.dateStr}</small>
-                        <div class="d-flex justify-content-end mt-1">
-                            <button onclick="deleteExp(${e.id})" class="btn btn-sm btn-outline-danger py-0 px-2 fs-6"><i class="bi bi-trash"></i></button>
-                        </div>
-                    </div>
-                `;
-            });
+
+                    `;
+
+                });
+
         }
 
-        // ====== بند ۷: پشتیبان‌گیری و خروجی اکسل/JSON ======
+
+        /* =========================================================
+           خروجی CSV
+        ========================================================= */
+
         function exportToCSV() {
-            let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
-            csvContent += "نوع,نام/دسته,مبلغ,تاریخ,مالک/پرداخت کننده,فرمول/توضیحات\n";
+
+            let csvContent =
+                "data:text/csv;charset=utf-8,\uFEFF";
+
+
+            csvContent +=
+                "نوع,نام/دسته,مبلغ,تاریخ,مالک/پرداخت کننده,فرمول/توضیحات\n";
+
 
             appointments.forEach(a => {
-                csvContent += `درآمد مشتری,"${a.name}",${a.price},"${a.dateStr}","${a.owner}","${a.formula || ''}"\n`;
-            });
-            expenses.forEach(e => {
-                csvContent += `هزینه,"${e.category}",${e.amount},"${e.dateStr}","${e.payer}","${e.desc || ''}"\n`;
+
+                csvContent +=
+                    `درآمد مشتری,"${a.name}",${a.price},"${a.dateStr}","${a.owner}","${a.formula || ''}"\n`;
+
             });
 
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `گزارش_مالی_سالن_${new Date().toLocaleDateString('fa-IR')}.csv`);
+
+            expenses.forEach(e => {
+
+                csvContent +=
+                    `هزینه,"${e.category}",${e.amount},"${e.dateStr}","${e.payer}","${e.desc || ''}"\n`;
+
+            });
+
+
+            const encodedUri =
+                encodeURI(csvContent);
+
+
+            const link =
+                document.createElement('a');
+
+
+            link.setAttribute(
+                'href',
+                encodedUri
+            );
+
+
+            link.setAttribute(
+                'download',
+                `گزارش_مالی_سالن_${new Date().toLocaleDateString('fa-IR')}.csv`
+            );
+
+
             document.body.appendChild(link);
+
             link.click();
+
             document.body.removeChild(link);
+
         }
+
+
+        /* =========================================================
+           پشتیبان JSON
+        ========================================================= */
 
         function backupJSON() {
-            const data = { appointments, expenses };
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
+
+            const data = {
+                appointments,
+                expenses
+            };
+
+
+            const blob =
+                new Blob(
+                    [
+                        JSON.stringify(
+                            data,
+                            null,
+                            2
+                        )
+                    ],
+                    {
+                        type: 'application/json'
+                    }
+                );
+
+
+            const url =
+                URL.createObjectURL(blob);
+
+
+            const a =
+                document.createElement('a');
+
+
             a.href = url;
-            a.download = `پشتیبان_سالن_${new Date().toLocaleDateString('fa-IR')}.json`;
+
+
+            a.download =
+                `پشتیبان_سالن_${new Date().toLocaleDateString('fa-IR')}.json`;
+
+
             a.click();
+
+
+            URL.revokeObjectURL(url);
+
         }
+
+
+        /* =========================================================
+           بازیابی JSON
+        ========================================================= */
 
         function restoreJSON(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
+
+            const file =
+                event.target.files[0];
+
+
+            if (!file) {
+                return;
+            }
+
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload = function (e) {
+
                 try {
-                    const data = JSON.parse(e.target.result);
-                    if (data.appointments && data.expenses) {
-                        appointments = data.appointments;
-                        expenses = data.expenses;
-                        localStorage.setItem('salon_apps_v2', JSON.stringify(appointments));
-                        localStorage.setItem('salon_exps_v2', JSON.stringify(expenses));
+
+                    const data =
+                        JSON.parse(
+                            e.target.result
+                        );
+
+
+                    if (
+                        data.appointments &&
+                        data.expenses
+                    ) {
+
+                        appointments =
+                            data.appointments;
+
+                        expenses =
+                            data.expenses;
+
+
+                        localStorage.setItem(
+                            'salon_apps_v2',
+                            JSON.stringify(
+                                appointments
+                            )
+                        );
+
+
+                        localStorage.setItem(
+                            'salon_exps_v2',
+                            JSON.stringify(
+                                expenses
+                            )
+                        );
+
+
                         renderApp();
-                        alert("اطلاعات پشتیبان با موفقیت بازیابی شد.");
+
+
+                        alert(
+                            "اطلاعات پشتیبان با موفقیت بازیابی شد."
+                        );
+
                     } else {
-                        alert("فایل انتخاب شده معتبر نیست.");
+
+                        alert(
+                            "فایل انتخاب شده معتبر نیست."
+                        );
+
                     }
+
                 } catch (err) {
-                    alert("خطا در خواندن فایل پشتیبان.");
+
+                    alert(
+                        "خطا در خواندن فایل پشتیبان."
+                    );
+
                 }
+
             };
+
+
             reader.readAsText(file);
+
         }
 
-        renderApp();
-    </script>
-</body>
-</html>
 
-```
+        /* =========================================================
+           اجرای اولیه
+        ========================================================= */
+
+        renderApp();
+
+    </script>
+
+</body>
+
+</html>
