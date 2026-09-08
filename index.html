@@ -366,6 +366,15 @@
 
         <div id="appointmentsTab" class="tab-content">
 
+            <!-- کادر تولدهای امروز -->
+            <div id="todayBirthdaysSection" class="card p-3 mb-3 border border-danger bg-light" style="display: none;">
+                <h6 class="fw-bold text-danger mb-2">
+                    <i class="bi bi-cake2-fill me-1"></i>
+                    تولدهای امروز 🎉
+                </h6>
+                <div id="todayBirthdaysList"></div>
+            </div>
+
             <!-- ثبت مشتری -->
 
             <div class="card p-3">
@@ -404,6 +413,18 @@
 
                         </div>
 
+                    </div>
+
+                    <!-- فیلد تاریخ تولد شمسی -->
+                    <div class="row g-2 mb-2">
+                        <div class="col-12">
+                            <input
+                                type="text"
+                                id="custBirthdate"
+                                class="form-control form-control-sm"
+                                placeholder="تاریخ تولد شمسی (مثلاً: ۰۶/۱۵ یا ۱۳۷۵/۰۶/۱۵)"
+                            >
+                        </div>
                     </div>
 
 
@@ -835,6 +856,11 @@
                         .value
                         .trim(),
 
+                    birthdate: document
+                        .getElementById('custBirthdate')
+                        .value
+                        .trim(),
+
                     service: document
                         .getElementById('custService')
                         .value
@@ -1063,10 +1089,91 @@
 
 
         /* =========================
+           تبدیل اعداد انگلیسی به فارسی و بالعکس
+        ========================= */
+        function toEnglishDigits(str) {
+            if (!str) return '';
+            return str.replace(/[۰-۹]/g, function (w) {
+                const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+                return persianDigits.indexOf(w);
+            });
+        }
+
+
+        /* =========================
+           بررسی تولدهای امروز
+        ========================= */
+        function checkTodayBirthdays() {
+            const todayPersian = new Date().toLocaleDateString('fa-IR');
+            const parts = todayPersian.split('/');
+            if (parts.length < 3) return;
+
+            const todayMonth = parseInt(toEnglishDigits(parts[1]), 10);
+            const todayDay = parseInt(toEnglishDigits(parts[2]), 10);
+
+            const bdayContainer = document.getElementById('todayBirthdaysList');
+            const bdaySection = document.getElementById('todayBirthdaysSection');
+            bdayContainer.innerHTML = '';
+
+            let hasBirthdayToday = false;
+
+            appointments.forEach(a => {
+                if (a.birthdate) {
+                    const cleanBdate = toEnglishDigits(a.birthdate).replace(/-/g, '/');
+                    const bParts = cleanBdate.split('/');
+                    
+                    let bMonth, bDay;
+                    if (bParts.length === 3) {
+                        bMonth = parseInt(bParts[1], 10);
+                        bDay = parseInt(bParts[2], 10);
+                    } else if (bParts.length === 2) {
+                        bMonth = parseInt(bParts[0], 10);
+                        bDay = parseInt(bParts[1], 10);
+                    }
+
+                    if (bMonth === todayMonth && bDay === todayDay) {
+                        hasBirthdayToday = true;
+                        
+                        let phoneNum = a.phone ? (a.phone.startsWith('0') ? '98' + a.phone.substring(1) : a.phone) : '';
+                        let birthdaySmsMessage = `🎂 تولدتون مبارک! 🎉
+نجمه رحیمی، هیرکالرست شما، براتون آرزو می‌کنه سال جدید زندگیتون پر از شادی، زیبایی و اتفاق‌های دوست‌داشتنی باشه❤️✨
+
+به مناسبت روز تولدتون، ۲۰٪ تخفیف ویژه خدمات رنگ مو براتون در نظر گرفتم 🎁🌸
+
+اگر دوست داشتید، پیام بدید تا تایم مناسب رو براتون هماهنگ کنم 🌿`;
+
+                        bdayContainer.innerHTML += `
+                            <div class="d-flex justify-content-between align-items-center bg-white p-2 rounded mb-2 border">
+                                <div>
+                                    <strong>${a.name}</strong>
+                                    <small class="text-muted d-block">${a.phone || ''}</small>
+                                </div>
+                                ${a.phone ? `
+                                    <a href="sms:${phoneNum}&body=${encodeURIComponent(birthdaySmsMessage)}" class="btn btn-sm btn-danger">
+                                        🎂 ارسال پیامک تولد (آیفون)
+                                    </a>
+                                ` : '<span class="badge bg-secondary">بدون شماره</span>'}
+                            </div>
+                        `;
+                    }
+                }
+            });
+
+            if (hasBirthdayToday) {
+                bdaySection.style.display = 'block';
+            } else {
+                bdaySection.style.display = 'none';
+            }
+        }
+
+
+        /* =========================
            نمایش کل برنامه
         ========================= */
 
         function renderApp() {
+
+            checkTodayBirthdays();
 
             const filteredApps =
                 filterByPeriod(appointments);
@@ -1312,7 +1419,7 @@
 
 
                     /* =================================================
-                       متن پیامک
+                       متن‌های پیامک (ترمیم و تولد)
                     ================================================= */
 
                     let smsMessage = `سلام ${a.name} عزیزم ❤️
@@ -1327,20 +1434,33 @@
 
 مشتاق دیدنتون هستم 🤍`;
 
+                    let birthdaySmsMessage = `🎂 تولدتون مبارک! 🎉
+نجمه رحیمی، هیرکالرست شما، براتون آرزو می‌کنه سال جدید زندگیتون پر از شادی، زیبایی و اتفاق‌های دوست‌داشتنی باشه❤️✨
+
+به مناسبت روز تولدتون، ۲۰٪ تخفیف ویژه خدمات رنگ مو براتون در نظر گرفتم 🎁🌸
+
+اگر دوست داشتید، پیام بدید تا تایم مناسب رو براتون هماهنگ کنم 🌿`;
+
 
                     /* =================================================
-                       دکمه پیامک
+                       دکمه‌های پیامک
                     ================================================= */
 
                     let smsBtn =
                         a.phone
                             ? `
                                 <a
-                                    href="sms:${phoneNum}?body=${encodeURIComponent(smsMessage)}"
-                                    class="btn btn-sm btn-outline-primary"
+                                    href="sms:${phoneNum}&body=${encodeURIComponent(smsMessage)}"
+                                    class="btn btn-sm btn-outline-primary me-1 mb-1"
                                 >
                                     <i class="bi bi-chat-dots me-1"></i>
                                     پیام ترمیم
+                                </a>
+                                <a
+                                    href="sms:${phoneNum}&body=${encodeURIComponent(birthdaySmsMessage)}"
+                                    class="btn btn-sm btn-outline-danger mb-1"
+                                >
+                                    🎂 پیامک تولد
                                 </a>
                               `
                             : '';
@@ -1415,6 +1535,16 @@
                                     ${a.retouchDateStr || 'ثبت نشده'}
 
                                 </span>
+
+                                ${
+                                    a.birthdate
+                                        ? `
+                                            <span class="badge bg-warning text-dark border ms-1">
+                                                🎂 تولد: ${a.birthdate}
+                                            </span>
+                                          `
+                                        : ''
+                                }
 
                             </div>
 
@@ -1567,111 +1697,66 @@
 
 
         /* =========================================================
-           خروجی CSV
+           تابع عمومی دانلود فایل سازگار با آیفون (iOS PWA)
         ========================================================= */
 
-        function exportToCSV() {
-
-            let csvContent =
-                "data:text/csv;charset=utf-8,\uFEFF";
-
-
-            csvContent +=
-                "نوع,نام/دسته,مبلغ,تاریخ,مالک/پرداخت کننده,فرمول/توضیحات\n";
-
-
-            appointments.forEach(a => {
-
-                csvContent +=
-                    `درآمد مشتری,"${a.name}",${a.price},"${a.dateStr}","${a.owner}","${a.formula || ''}"\n`;
-
-            });
-
-
-            expenses.forEach(e => {
-
-                csvContent +=
-                    `هزینه,"${e.category}",${e.amount},"${e.dateStr}","${e.payer}","${e.desc || ''}"\n`;
-
-            });
-
-
-            const encodedUri =
-                encodeURI(csvContent);
-
-
-            const link =
-                document.createElement('a');
-
-
-            link.setAttribute(
-                'href',
-                encodedUri
-            );
-
-
-            link.setAttribute(
-                'download',
-                `گزارش_مالی_سالن_${new Date().toLocaleDateString('fa-IR')}.csv`
-            );
-
-
-            document.body.appendChild(link);
-
-            link.click();
-
-            document.body.removeChild(link);
-
+        function saveFileInIOS(content, fileName, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const dataUrl = e.target.result;
+                const a = document.createElement('a');
+                a.href = dataUrl;
+                a.download = fileName;
+                a.target = '_blank';
+                
+                document.body.appendChild(a);
+                a.click();
+                
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                }, 100);
+            };
+            
+            reader.readAsDataURL(blob);
         }
 
 
         /* =========================================================
-           پشتیبان JSON
+           خروجی CSV (سازگار با آیفون)
+        ========================================================= */
+
+        function exportToCSV() {
+            let csvContent = "\uFEFF"; // BOM برای نمایش صحیح حروف فارسی در اکسل
+            csvContent += "نوع,نام/دسته,مبلغ,تاریخ,مالک/پرداخت کننده,فرمول/توضیحات,تاریخ تولد\n";
+
+            appointments.forEach(a => {
+                csvContent += `درآمد مشتری,"${a.name}",${a.price},"${a.dateStr}","${a.owner}","${a.formula || ''}","${a.birthdate || ''}"\n`;
+            });
+
+            expenses.forEach(e => {
+                csvContent += `هزینه,"${e.category}",${e.amount},"${e.dateStr}","${e.payer}","${e.desc || ''}",""\n`;
+            });
+
+            const fileName = `گزارش_مالی_سالن_${new Date().toLocaleDateString('fa-IR')}.csv`;
+            saveFileInIOS(csvContent, fileName, 'text/csv;charset=utf-8;');
+        }
+
+
+        /* =========================================================
+           پشتیبان JSON (سازگار با آیفون)
         ========================================================= */
 
         function backupJSON() {
-
             const data = {
                 appointments,
                 expenses
             };
-
-
-            const blob =
-                new Blob(
-                    [
-                        JSON.stringify(
-                            data,
-                            null,
-                            2
-                        )
-                    ],
-                    {
-                        type: 'application/json'
-                    }
-                );
-
-
-            const url =
-                URL.createObjectURL(blob);
-
-
-            const a =
-                document.createElement('a');
-
-
-            a.href = url;
-
-
-            a.download =
-                `پشتیبان_سالن_${new Date().toLocaleDateString('fa-IR')}.json`;
-
-
-            a.click();
-
-
-            URL.revokeObjectURL(url);
-
+            const jsonString = JSON.stringify(data, null, 2);
+            const fileName = `پشتیبان_سالن_${new Date().toLocaleDateString('fa-IR')}.json`;
+            
+            saveFileInIOS(jsonString, fileName, 'application/json');
         }
 
 
@@ -1681,82 +1766,43 @@
 
         function restoreJSON(event) {
 
-            const file =
-                event.target.files[0];
+            const file = event.target.files[0];
 
+            if (!file) return;
 
-            if (!file) {
-                return;
-            }
-
-
-            const reader =
-                new FileReader();
-
+            const reader = new FileReader();
 
             reader.onload = function (e) {
 
                 try {
 
-                    const data =
-                        JSON.parse(
-                            e.target.result
-                        );
+                    const data = JSON.parse(e.target.result);
 
+                    if (data.appointments && data.expenses) {
 
-                    if (
-                        data.appointments &&
-                        data.expenses
-                    ) {
+                        appointments = data.appointments;
+                        expenses = data.expenses;
 
-                        appointments =
-                            data.appointments;
-
-                        expenses =
-                            data.expenses;
-
-
-                        localStorage.setItem(
-                            'salon_apps_v2',
-                            JSON.stringify(
-                                appointments
-                            )
-                        );
-
-
-                        localStorage.setItem(
-                            'salon_exps_v2',
-                            JSON.stringify(
-                                expenses
-                            )
-                        );
-
+                        localStorage.setItem('salon_apps_v2', JSON.stringify(appointments));
+                        localStorage.setItem('salon_exps_v2', JSON.stringify(expenses));
 
                         renderApp();
 
-
-                        alert(
-                            "اطلاعات پشتیبان با موفقیت بازیابی شد."
-                        );
+                        alert("اطلاعات پشتیبان با موفقیت بازیابی شد.");
 
                     } else {
 
-                        alert(
-                            "فایل انتخاب شده معتبر نیست."
-                        );
+                        alert("فایل انتخاب شده معتبر نیست.");
 
                     }
 
                 } catch (err) {
 
-                    alert(
-                        "خطا در خواندن فایل پشتیبان."
-                    );
+                    alert("خطا در خواندن فایل پشتیبان.");
 
                 }
 
             };
-
 
             reader.readAsText(file);
 
